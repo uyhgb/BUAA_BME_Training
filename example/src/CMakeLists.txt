@@ -86,6 +86,11 @@ target_compile_features(b2_stand_example PRIVATE cxx_std_20)
 add_executable(b2_sport_client src/b2/b2_sport_client.cpp src/common/ros2_b2_sport_client.cpp)
 target_compile_features(b2_sport_client PRIVATE cxx_std_20)
 
+# 自定义传感器读取程序
+add_executable(custom_sensor_reader src/custom_sensor_reader.cpp)
+add_executable(custom_sensor_logger src/custom_sensor_logger.cpp)
+add_executable(simulate_robot src/simulate_robot.cpp)
+
 
 ament_target_dependencies(low_level_ctrl ${DEPENDENCY_LIST})
 ament_target_dependencies(low_level_ctrl_hg ${DEPENDENCY_LIST})
@@ -115,6 +120,11 @@ ament_target_dependencies(b2w_stand_example ${DEPENDENCY_LIST})
 ament_target_dependencies(b2_sport_client ${DEPENDENCY_LIST})
 ament_target_dependencies(b2_stand_example ${DEPENDENCY_LIST})
 
+# 自定义传感器读取程序依赖
+ament_target_dependencies(custom_sensor_reader ${DEPENDENCY_LIST})
+ament_target_dependencies(custom_sensor_logger ${DEPENDENCY_LIST})
+ament_target_dependencies(simulate_robot ${DEPENDENCY_LIST})
+
 find_package(yaml-cpp QUIET)
 if(yaml-cpp_FOUND)
     if (${yaml-cpp_VERSION} VERSION_GREATER_EQUAL "0.6")
@@ -137,23 +147,26 @@ install(TARGETS
         read_wireless_controller
         go2_sport_client
         go2_stand_example
-        DESTINATION)
+        custom_sensor_reader
+        custom_sensor_logger
+        simulate_robot
+        DESTINATION lib/${PROJECT_NAME})
 
 
-install(TARGETS go2_robot_state_client)
-install(TARGETS g1_arm_sdk_dds_example)
-install(TARGETS g1_arm_action_example)
-install(TARGETS g1_dex3_example)
-install(TARGETS g1_loco_client_example)
-install(TARGETS g1_ankle_swing_example)
+install(TARGETS go2_robot_state_client DESTINATION lib/${PROJECT_NAME})
+install(TARGETS g1_arm_sdk_dds_example DESTINATION lib/${PROJECT_NAME})
+install(TARGETS g1_arm_action_example DESTINATION lib/${PROJECT_NAME})
+install(TARGETS g1_dex3_example DESTINATION lib/${PROJECT_NAME})
+install(TARGETS g1_loco_client_example DESTINATION lib/${PROJECT_NAME})
+install(TARGETS g1_ankle_swing_example DESTINATION lib/${PROJECT_NAME})
 
 if(yaml-cpp_FOUND)
     if (${yaml-cpp_VERSION} VERSION_GREATER_EQUAL "0.6")
-      install(TARGETS g1_dual_arm_example)
+      install(TARGETS g1_dual_arm_example DESTINATION lib/${PROJECT_NAME})
     endif()
 endif()
 
-install(TARGETS g1_audio_client_example)
+install(TARGETS g1_audio_client_example DESTINATION lib/${PROJECT_NAME})
 
 
 

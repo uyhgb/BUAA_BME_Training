@@ -11,6 +11,12 @@ services:
     environment:
       - DISPLAY=${DISPLAY}
       - XAUTHORITY=/tmp/.Xauthority
+      - http_proxy=http://host.docker.internal:54009
+      - https_proxy=http://host.docker.internal:54009
+      - no_proxy=localhost,127.0.0.1
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
     cap_add:
       - SYS_PTRACE  
@@ -26,30 +32,23 @@ services:
     # Perhaps Unitree will provide a dockerhub image later to save you time compiling.
     privileged: true
     network_mode: "host"
-  devcontainer-foxy:
-    volumes: 
-      - ..:/workspace:cached
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - /mnt/wslg:/mnt/wslg
-      - /root/.gazebo/models/:/root/.gazebo/models/
-      - /var/run/docker.sock:/var/run/docker.sock 
-      - $HOME/.Xauthority:/tmp/.Xauthority:rw
-    environment:
-      - DISPLAY=${DISPLAY}
-      - XAUTHORITY=/tmp/.Xauthority
-
-    cap_add:
-      - SYS_PTRACE  
-    command: /bin/sh -c "while sleep 1000; do :; done"
- 
-    build:
-      context: .
-      dockerfile: Dockerfile-foxy
-    # image: ros2-foxy-dev:latest
-
-    # run `cd .devcontainer/ && docker build . -t ros2-humble-dev:latest -f Dockerfile-humble` 
-    # to use the development environment, or you can build it with Dockerfile.
-    # Perhaps Unitree will provide a dockerhub image later to save you time compiling.
-
-    privileged: true
-    network_mode: "host"
+  # devcontainer-foxy 服务已临时注释，避免网络下载问题
+  # devcontainer-foxy:
+  #   volumes: 
+  #     - ..:/workspace:cached
+  #     - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  #     - /mnt/wslg:/mnt/wslg
+  #     - /root/.gazebo/models/:/root/.gazebo/models/
+  #     - /var/run/docker.sock:/var/run/docker.sock 
+  #     - $HOME/.Xauthority:/tmp/.Xauthority:rw
+  #   environment:
+  #     - DISPLAY=${DISPLAY}
+  #     - XAUTHORITY=/tmp/.Xauthority
+  #   cap_add:
+  #     - SYS_PTRACE  
+  #   command: /bin/sh -c "while sleep 1000; do :; done"
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-foxy
+  #   privileged: true
+  #   network_mode: "host"

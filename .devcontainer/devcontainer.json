@@ -21,8 +21,8 @@
 				"adam-bender.commit-message-editor",
 				"axetroy.vscode-changelog-generator",
 				"vsliveshare.vsliveshare",
-				"bierner.markdown-mermaid",
-				"vadimcn.vscode-lldb"
+				"bierner.markdown-mermaid"
+				// "vadimcn.vscode-lldb"  // C++ debugger, install manually if needed
 			]
 		}
 	}
