@@ -11,12 +11,13 @@ services:
     environment:
       - DISPLAY=${DISPLAY}
       - XAUTHORITY=/tmp/.Xauthority
-      - http_proxy=http://host.docker.internal:54009
-      - https_proxy=http://host.docker.internal:54009
-      - no_proxy=localhost,127.0.0.1
+      # Proxy settings removed for general use
+      # - http_proxy=http://host.docker.internal:54009
+      # - https_proxy=http://host.docker.internal:54009
+      # - no_proxy=localhost,127.0.0.1
 
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
 
     cap_add:
       - SYS_PTRACE  
