@@ -1,0 +1,23 @@
+# 控制器配置参数
+
+robot_controller:
+  ros__parameters:
+    # 控制参数
+    control_frequency: 50.0        # 控制频率 (Hz)
+    enable_control: false          # 控制使能 (安全开关)
+    num_motors: 12                 # 电机数量
+    
+    # 传感器话题
+    imu_topic: "/imu/data"
+    
+    # 控制增益 (示例)
+    balance_control:
+      kp_roll: 50.0
+      kd_roll: 5.0
+      kp_pitch: 50.0
+      kd_pitch: 5.0
+    
+    # 安全限制
+    max_motor_velocity: 10.0       # rad/s
+    max_motor_torque: 5.0          # N·m
+    emergency_tilt_angle: 45.0     # 度
