@@ -1,0 +1,14 @@
+# IMU CSV 读取器配置
+imu_csv_reader:
+  ros__parameters:
+    # 串口设置
+    serial_port: "COM3"          # Windows: COM3, Linux: /dev/ttyUSB0
+    baud_rate: 115200            # 波特率
+    timeout: 1.0                 # 超时时间 (秒)
+    
+    # 自动检测 ESP32 串口 (Windows 推荐关闭)
+    auto_detect_port: false
+    
+    # ROS2 话题设置
+    topic_name: "/imu/data"      # 发布话题名称
+    frame_id: "imu_link"         # 坐标系 ID

@@ -1,0 +1,28 @@
+# IMU串口发布器配置文件 - 生产环境 (树莓派)
+# 使用场景: 树莓派直接连接 USB 串口设备
+
+imu_serial_publisher:
+  ros__parameters:
+    # 串口参数
+    # 树莓派上 USB 串口通常显示为 /dev/ttyUSB0, /dev/ttyUSB1 等
+    # 也可能是 /dev/ttyACM0 (取决于 USB 芯片类型)
+    # 建议使用 /dev/serial/by-id/ 下的固定设备名,避免设备号变化
+    serial_port: "/dev/ttyUSB0"  # 树莓派上的 USB 串口
+    baud_rate: 115200
+    
+    # 坐标系
+    frame_id: "imu_link"
+    
+    # 发布频率 (Hz)
+    publish_rate: 20.0
+    
+    # 如果需要,可以添加校准参数
+    # accel_offset: [0.0, 0.0, 0.0]
+    # gyro_offset: [0.0, 0.0, 0.0]
+    # mag_offset: [0.0, 0.0, 0.0]
+
+# 树莓派特殊说明:
+# 1. 确保当前用户在 dialout 组: sudo usermod -a -G dialout $USER
+# 2. 查看串口设备: ls -l /dev/ttyUSB* /dev/ttyACM*
+# 3. 查看设备固定ID: ls -l /dev/serial/by-id/
+# 4. Docker 需要映射设备: --device=/dev/ttyUSB0:/dev/ttyUSB0

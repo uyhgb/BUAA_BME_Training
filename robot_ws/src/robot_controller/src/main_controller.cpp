@@ -187,9 +187,9 @@ private:
         // ========================================
         
         // 示例: 读取传感器数据
-        double roll = imu_roll_;
-        double pitch = imu_pitch_;
-        double yaw = imu_yaw_;
+        // double roll = imu_roll_;
+        // double pitch = imu_pitch_;
+        // double yaw = imu_yaw_;
         
         // 示例: 简单的平衡控制
         // double roll_error = 0.0 - roll;
@@ -310,7 +310,7 @@ private:
     double imu_linear_acc_z_;
     
     // 控制命令
-    std::vector<double> motor_commands_;
+    std::vector<float> motor_commands_;
     
     // 参数
     double control_freq_;

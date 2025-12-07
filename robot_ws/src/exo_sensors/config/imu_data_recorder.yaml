@@ -1,0 +1,10 @@
+# IMU 数据记录器配置
+imu_data_recorder:
+  ros__parameters:
+    # 订阅话题
+    topic_name: "/imu/data"
+    
+    # 输出设置
+    output_dir: "./data"                    # 数据保存目录
+    file_prefix: "imu_gait_data"            # 文件名前缀
+    auto_filename: true                     # 自动生成带时间戳的文件名

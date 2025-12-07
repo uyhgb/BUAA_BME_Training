@@ -1,0 +1,20 @@
+# IMU串口发布器配置文件 - 开发环境 (WSL2 + Docker)
+# 使用场景: Windows 开发机器, 通过 usbipd-win 连接 USB 串口
+
+imu_serial_publisher:
+  ros__parameters:
+    # 串口参数
+    # WSL2 通过 usbipd-win 连接后，USB串口通常显示为 /dev/ttyUSB0 或 /dev/ttyACM0
+    serial_port: "/dev/ttyUSB0"  # USB串口设备 (通过 usbipd-win)
+    baud_rate: 115200
+    
+    # 坐标系
+    frame_id: "imu_link"
+    
+    # 发布频率 (Hz)
+    publish_rate: 20.0
+    
+    # 如果需要,可以添加校准参数
+    # accel_offset: [0.0, 0.0, 0.0]
+    # gyro_offset: [0.0, 0.0, 0.0]
+    # mag_offset: [0.0, 0.0, 0.0]

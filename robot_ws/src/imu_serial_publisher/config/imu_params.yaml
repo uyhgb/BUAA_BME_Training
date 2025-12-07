@@ -1,8 +1,16 @@
-# IMU串口发布器配置文件
+# IMU串口发布器配置文件 - 默认配置
+# 
+# 根据部署环境选择合适的配置:
+# - 开发环境 (WSL2): 使用 imu_params_dev_wsl.yaml
+# - 生产环境 (树莓派): 使用 imu_params_raspberry_pi.yaml
+#
+# 当前配置: 开发环境 (WSL2 + usbipd-win)
 
-# 串口参数
-serial_port: "/dev/ttyUSB0"  # Windows下可能是 COM3, COM4 等
-baud_rate: 115200
+imu_serial_publisher:
+  ros__parameters:
+    # 串口参数
+    serial_port: "/dev/ttyUSB0"  # WSL2: /dev/ttyUSB0, 树莓派: /dev/ttyUSB0
+    baud_rate: 115200
 
 # 坐标系
 frame_id: "imu_link"

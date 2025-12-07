@@ -13,7 +13,7 @@ find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 
 # Add nlohmann/json (header-only library)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # IMU Serial Publisher Node
 add_executable(imu_serial_publisher_node src/imu_serial_publisher.cpp)

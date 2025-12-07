@@ -1,0 +1,8 @@
+# IMU 可视化器配置
+imu_visualizer:
+  ros__parameters:
+    # 订阅话题
+    topic_name: "/imu/data"
+    
+    # 显示设置
+    window_size: 200                        # 显示数据点数量 (约10秒@20Hz)

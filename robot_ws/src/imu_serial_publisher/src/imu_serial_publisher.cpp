@@ -7,6 +7,8 @@
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <cerrno>
+#include <algorithm>
 
 #include <iostream>
 #include <string>
@@ -106,23 +108,39 @@ private:
     
     std::string readLine()
     {
-        std::string line;
-        char c;
+        static std::string buffer;  // 静态缓冲区,保留未处理的数据
+        char temp[256];
         
         while (rclcpp::ok()) {
-            int n = read(serial_fd_, &c, 1);
+            // 尝试读取更多数据
+            int n = read(serial_fd_, temp, sizeof(temp) - 1);
             if (n > 0) {
-                if (c == '\n') {
+                temp[n] = '\0';
+                buffer += temp;
+                
+                // 查找完整的一行 (以 \n 结尾)
+                size_t newline_pos = buffer.find('\n');
+                if (newline_pos != std::string::npos) {
+                    // 提取一行
+                    std::string line = buffer.substr(0, newline_pos);
+                    buffer = buffer.substr(newline_pos + 1);  // 保留剩余数据
+                    
+                    // 去除 \r
+                    line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+                    
                     if (!line.empty()) {
                         return line;
                     }
-                } else if (c != '\r') {
-                    line += c;
                 }
             } else if (n < 0) {
-                RCLCPP_ERROR(this->get_logger(), "Error reading from serial port");
+                // 非阻塞模式下 EAGAIN/EWOULDBLOCK 是正常情况,继续等待
+                if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                    continue;
+                }
+                RCLCPP_ERROR(this->get_logger(), "Error reading from serial port: %s", strerror(errno));
                 return "";
             }
+            // n == 0: 超时,继续读取
         }
         
         return "";
@@ -135,6 +153,22 @@ private:
             return;
         }
         
+        // 过滤掉单独的单位标注行 (mg, dps 等)
+        // 只处理包含完整 JSON 的行(以 '{' 开头, 以 '}' 结尾)
+        if (line.empty() || line[0] != '{') {
+            return;
+        }
+        
+        // 去除 JSON 后面的空格和尾部的单位标注
+        size_t json_end = line.find_last_of('}');
+        if (json_end != std::string::npos) {
+            line = line.substr(0, json_end + 1);
+        } else {
+            // 没有找到结束符 '}', 说明 JSON 不完整
+            RCLCPP_WARN(this->get_logger(), "Incomplete JSON received (length: %zu), skipping", line.length());
+            return;
+        }
+        
         try {
             // 解析JSON
             auto j = json::parse(line);
@@ -144,14 +178,16 @@ private:
             imu_msg.header.stamp = this->now();
             imu_msg.header.frame_id = frame_id_;
             
-            // 填充线性加速度 (m/s^2)
+            // 填充线性加速度 (保持原始单位: mg)
+            // 注意: IMU 输出单位为 mg (毫重力),算法层需要转换为 m/s²
             if (j.contains("acceleration")) {
                 imu_msg.linear_acceleration.x = j["acceleration"]["x"].get<double>();
                 imu_msg.linear_acceleration.y = j["acceleration"]["y"].get<double>();
                 imu_msg.linear_acceleration.z = j["acceleration"]["z"].get<double>();
             }
             
-            // 填充角速度 (rad/s)
+            // 填充角速度 (保持原始单位: dps)
+            // 注意: IMU 输出单位为 dps (度/秒),算法层需要转换为 rad/s
             if (j.contains("gyroscope")) {
                 imu_msg.angular_velocity.x = j["gyroscope"]["x"].get<double>();
                 imu_msg.angular_velocity.y = j["gyroscope"]["y"].get<double>();
