@@ -19,8 +19,8 @@ def generate_launch_description():
     # 声明启动参数
     serial_port_arg = DeclareLaunchArgument(
         'serial_port',
-        default_value='COM3',
-        description='串口设备名 (Windows: COM3, Linux: /dev/ttyUSB0)'
+        default_value='/dev/ttyUSB0',
+        description='串口设备名 (Windows: COM7, Linux: /dev/ttyUSB0)'
     )
     
     baud_rate_arg = DeclareLaunchArgument(

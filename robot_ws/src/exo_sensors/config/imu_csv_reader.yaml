@@ -2,7 +2,7 @@
 imu_csv_reader:
   ros__parameters:
     # 串口设置
-    serial_port: "COM3"          # Windows: COM3, Linux: /dev/ttyUSB0
+    serial_port: "/dev/ttyUSB0"          # Windows: COM3, Linux: /dev/ttyUSB0
     baud_rate: 115200            # 波特率
     timeout: 1.0                 # 超时时间 (秒)
     

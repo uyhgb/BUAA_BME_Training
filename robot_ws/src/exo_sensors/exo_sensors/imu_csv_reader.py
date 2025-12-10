@@ -22,7 +22,7 @@ class IMUCSVReader(Node):
         super().__init__('imu_csv_reader')
         
         # 声明参数
-        self.declare_parameter('serial_port', 'COM3')
+        self.declare_parameter('serial_port', '/dev/ttyUSB0')
         self.declare_parameter('baud_rate', 115200)
         self.declare_parameter('timeout', 1.0)
         self.declare_parameter('topic_name', '/imu/data')
@@ -104,6 +104,13 @@ class IMUCSVReader(Node):
         except UnicodeDecodeError:
             self.error_count += 1
             self.get_logger().warn('数据解码错误，跳过此行')
+        except serial.SerialException as e:
+            # 串口硬件错误（断连、多路访问等）
+            self.error_count += 1
+            if 'device disconnected' in str(e) or 'multiple access' in str(e):
+                self.get_logger().warn(f'串口瞬时异常（可能是USB供电不足）: {e}')
+            else:
+                self.get_logger().error(f'串口异常: {e}')
         except Exception as e:
             self.error_count += 1
             self.get_logger().error(f'读取串口数据时出错: {e}')

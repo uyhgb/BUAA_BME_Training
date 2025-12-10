@@ -8,6 +8,7 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
+from launch.conditions import IfCondition
 from ament_index_python.packages import get_package_share_directory
 import os
 
@@ -19,7 +20,7 @@ def generate_launch_description():
     # 声明启动参数
     serial_port_arg = DeclareLaunchArgument(
         'serial_port',
-        default_value='COM3',
+        default_value='/dev/ttyUSB0',
         description='串口设备名'
     )
     
@@ -56,7 +57,7 @@ def generate_launch_description():
         parameters=[
             os.path.join(pkg_dir, 'config', 'imu_data_recorder.yaml')
         ],
-        condition=lambda context: context.launch_configurations['enable_recorder'] == 'true'
+        condition=IfCondition(LaunchConfiguration('enable_recorder'))
     )
     
     # IMU 可视化器
@@ -68,7 +69,7 @@ def generate_launch_description():
         parameters=[
             os.path.join(pkg_dir, 'config', 'imu_visualizer.yaml')
         ],
-        condition=lambda context: context.launch_configurations['enable_visualizer'] == 'true'
+        condition=IfCondition(LaunchConfiguration('enable_visualizer'))
     )
     
     return LaunchDescription([
