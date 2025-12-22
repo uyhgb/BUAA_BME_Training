@@ -270,25 +270,20 @@ def train_optimized_model(X_scaled, y, y_phase):
         'max_iter': [50000],  # 增大迭代次数
         'tol': [1e-4]  # 降低收敛阈值
     }
+    print(f"开启网格搜索，可能需要较长时间，请耐心等待...")
     
-    print(f"开始网格搜索，这可能需要较长时间，请留意下方滚动日志...")
-
-    # ================== 修改这里 ==================
+    # 网格搜索
     grid_search = GridSearchCV(
-        estimator=SVR(verbose=False), # SVR本身保持安静，让GridSearch来汇报
+        estimator=SVR(verbose=False),
         param_grid=param_grid,
-        cv=3,              # 3折交叉验证
+        cv=3,  # 减少交叉验证折数，加快训练
         scoring='r2',
-        n_jobs=1,          # 单核运行（多核在Windows下可能不打印日志，单核最稳）
-        
-        # 【关键修改】：开启详细日志
-        verbose=3,         
-        
-        error_score='raise'
+        n_jobs=1,  # 改为单进程，避免多进程编码问题
+        verbose=3,
+        error_score='raise'  # 明确抛出错误
     )
-    # =============================================
     
-    # 训练
+# 训练
     try:
         # 加一个时间戳打印，让你知道何时开始的
         import time

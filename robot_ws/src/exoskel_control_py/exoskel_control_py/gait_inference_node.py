@@ -21,10 +21,22 @@ class GaitInferenceNode(Node):
     def __init__(self):
         super().__init__('gait_inference_node')
         
+        self.get_logger().info('🚀 步态推理节点启动中...')
+        
         # 1. 参数配置
-        pkg_dir = get_package_share_directory('exoskel_control_py')
+        try:
+            pkg_dir = get_package_share_directory('exoskel_control_py')
+            self.get_logger().info(f'📦 包目录: {pkg_dir}')
+        except Exception as e:
+            self.get_logger().error(f'❌ 无法获取包目录: {e}')
+            pkg_dir = ''
+        
         self.declare_parameter('model_path', os.path.join(pkg_dir, 'config'))
         data_dir = self.get_parameter('model_path').value
+        
+        self.get_logger().info(f'📂 模型路径: {data_dir}')
+        self.get_logger().info(f'📂 完整模型文件路径: {os.path.join(data_dir, "optimized_gait_svm_model.pkl")}')
+        self.get_logger().info(f'📂 路径是否存在: {os.path.exists(data_dir)}')
         
         # 助力策略参数 (60% 处助力)
         self.ASSIST_PEAK_PHASE = 0.60

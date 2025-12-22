@@ -8,13 +8,13 @@ imu_csv_reader:
     # 树莓派原生 USB 连接,设备通常为 /dev/ttyUSB0 或 /dev/ttyACM0
     # 使用命令查看: ls -l /dev/ttyUSB* /dev/ttyACM*
     # 推荐使用固定设备 ID: ls -l /dev/serial/by-id/
-    serial_port: "/dev/imu_usb"      # USB串口设备 (树莓派原生)
+    serial_port: "/dev/imu_usb"      # USB串口设备 (通过udev规则绑定的固定设备名)
     baud_rate: 115200                # 波特率 (与 ESP32 9DOF_Demo_v3 匹配)
     timeout: 1.0                     # 串口读取超时 (秒)
     
-    # 自动检测 ESP32 串口 (树莓派环境下可以开启)
+    # 自动检测 ESP32 串口 (已禁用，使用固定udev设备名)
     # 会自动搜索 CP210x/CH340 等常见 USB 转串口芯片
-    auto_detect_port: true
+    auto_detect_port: false          # 改为 false 以使用固定串口配置
     
     # ROS2 话题设置
     topic_name: "/imu/data"          # IMU 数据发布话题

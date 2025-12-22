@@ -1,7 +1,7 @@
 gait_inference_node:
   ros__parameters:
-    # SVM模型路径 (自动使用包的config目录)
-    model_path: ""  # 留空，代码中会自动设置
+    # SVM模型路径会在代码中自动解析到 {pkg_dir}/config
+    # model_path: ""  # 已注释，使用代码中的默认值
     
     # 助力策略参数
     assist_peak_phase: 0.60      # 60%步态相位助力
