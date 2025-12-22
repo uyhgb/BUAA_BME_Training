@@ -71,10 +71,10 @@ public:
         RCLCPP_INFO(this->get_logger(), "=================================");
         
         if (!enable_control_) {
-            RCLCPP_WARN(this->get_logger(), "");
+            RCLCPP_WARN(this->get_logger(), "=================================");
             RCLCPP_WARN(this->get_logger(), "⚠️  控制未使能，运行在监控模式");
             RCLCPP_WARN(this->get_logger(), "   使用参数 -p enable_control:=true 启用控制");
-            RCLCPP_WARN(this->get_logger(), "");
+            RCLCPP_WARN(this->get_logger(), "=================================");
         }
     }
 

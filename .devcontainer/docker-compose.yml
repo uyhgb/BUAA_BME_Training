@@ -1,13 +1,16 @@
 version: '3'
 services: 
   devcontainer-humble:
-    volumes: 
+    volumes:
       - ..:/workspace:cached
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /mnt/wslg:/mnt/wslg
       - /root/.gazebo/models/:/root/.gazebo/models/
-      - /var/run/docker.sock:/var/run/docker.sock 
+      - /var/run/docker.sock:/var/run/docker.sock
       - $HOME/.Xauthority:/tmp/.Xauthority:rw
+      - /dev:/dev  # 挂载整个 /dev 目录，自动识别所有 USB 设备
+      # 挂载整个 /dev 目录（自动识别所有USB设备）
+      - /dev:/dev
     environment:
       - DISPLAY=${DISPLAY}
       - XAUTHORITY=/tmp/.Xauthority
@@ -20,16 +23,7 @@ services:
 
     cap_add:
       - SYS_PTRACE
-    devices:
-      # ESP32 IMU 串口映射
-      # 方式1 (推荐): 使用 usbipd-win 连接 USB 到 WSL2
-      #   Windows PowerShell: usbipd attach --wsl --busid <BUSID>
-      #   WSL2 会自动创建 /dev/ttyUSB0 或 /dev/ttyACM0
-      #   取消下面注释以映射到容器:
-      - /dev/ttyUSB0:/dev/ttyUSB0    # usbipd-win 连接的 USB 设备
-      
-      # 方式2 (不推荐): Windows COM 口映射 (ttyS* 是虚拟设备,无法通信)
-      # - /dev/ttyS6:/dev/ttyUSB0    # COM7 -> ttyUSB0 (仅用于占位)
+    # devices 配置已被 /dev 挂载替代，无需单独映射设备
     command: /bin/sh -c "while sleep 1000; do :; done"
  
     build:
