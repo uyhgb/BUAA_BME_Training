@@ -18,9 +18,10 @@ RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 # exo_sensors 功能包: pyserial, numpy, matplotlib
 # exoskel_control_py 功能包: scipy, scikit-learn, joblib
 # 注意: NumPy 固定为 1.24.3 以兼容 SciPy (NumPy 2.x 会导致 scipy 崩溃)
+# 推荐写法：把 numpy 单独拎出来，或者显式锁死版本
 RUN pip3 install --no-cache-dir \
     pyserial \
-    "numpy<2.0,>=1.24.0" \
+    "numpy==1.24.4" \
     matplotlib \
     scipy \
     scikit-learn \
