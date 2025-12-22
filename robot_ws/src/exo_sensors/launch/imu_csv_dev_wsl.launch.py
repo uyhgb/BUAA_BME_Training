@@ -23,8 +23,8 @@ def generate_launch_description():
     # 声明启动参数 (可以覆盖配置文件)
     serial_port_arg = DeclareLaunchArgument(
         'serial_port',
-        default_value='/dev/ttyUSB0',  # COM7 映射为 ttyUSB0 (与树莓派保持一致)
-        description='Serial port device path (COM7 -> /dev/ttyUSB0 via docker-compose)'
+        default_value='/dev/imu_usb',  # IMU固定别名
+        description='Serial port device path (固定别名: /dev/imu_usb)'
     )
     
     baud_rate_arg = DeclareLaunchArgument(

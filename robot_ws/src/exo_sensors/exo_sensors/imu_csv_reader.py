@@ -22,7 +22,7 @@ class IMUCSVReader(Node):
         super().__init__('imu_csv_reader')
         
         # 声明参数
-        self.declare_parameter('serial_port', '/dev/ttyUSB0')
+        self.declare_parameter('serial_port', '/dev/imu_usb')
         self.declare_parameter('baud_rate', 115200)
         self.declare_parameter('timeout', 1.0)
         self.declare_parameter('topic_name', '/imu/data')
@@ -79,9 +79,12 @@ class IMUCSVReader(Node):
         ports = serial.tools.list_ports.comports()
         for port in ports:
             # ESP32 常见的 USB 转串口芯片
-            if 'CP210' in port.description or 'CH340' in port.description or \
-               'USB-SERIAL' in port.description or 'Silicon Labs' in port.manufacturer:
-                self.get_logger().info(f'检测到 ESP32: {port.device} - {port.description}')
+            description = port.description or ''
+            manufacturer = port.manufacturer or ''
+            
+            if 'CP210' in description or 'CH340' in description or \
+               'USB-SERIAL' in description or 'Silicon Labs' in manufacturer:
+                self.get_logger().info(f'检测到 ESP32: {port.device} - {description}')
                 return port.device
         return None
     

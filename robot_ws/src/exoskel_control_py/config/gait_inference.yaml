@@ -1,0 +1,17 @@
+gait_inference_node:
+  ros__parameters:
+    # SVM模型路径 (自动使用包的config目录)
+    model_path: ""  # 留空，代码中会自动设置
+    
+    # 助力策略参数
+    assist_peak_phase: 0.60      # 60%步态相位助力
+    phase_lead: 0.05              # 提前5%相位
+    assist_width: 0.10            # 助力窗口宽度10%
+    max_torque: 3.0               # 最大助力力矩 (Nm)
+    
+    # 特征提取参数
+    window_size: 10               # 滑动窗口大小 (帧数)
+    
+    # 话题名称
+    topic_imu: "/imu/data"
+    topic_torque: "/control/cmd_torque"

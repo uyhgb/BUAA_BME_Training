@@ -1,0 +1,15 @@
+motor_driver_node:
+  ros__parameters:
+    # 电机串口配置
+    serial_port: "/dev/unitree_motor"  # 宇树电机固定设备名
+    
+    # 安全参数
+    max_torque: 23.0              # 最大力矩限制 (Nm)
+    
+    # 控制参数
+    control_mode: 1               # FOC模式
+    kp: 0.0                       # 位置刚度 (消音)
+    kd: 1.0                       # 阻尼系数 (防飞车)
+    
+    # 话题名称
+    topic_cmd_torque: "/control/cmd_torque"

@@ -20,8 +20,8 @@ def generate_launch_description():
     # 声明启动参数
     serial_port_arg = DeclareLaunchArgument(
         'serial_port',
-        default_value='/dev/ttyUSB0',
-        description='串口设备名'
+        default_value='/dev/imu_usb',
+        description='串口设备名 (固定别名: /dev/imu_usb)'
     )
     
     enable_recorder_arg = DeclareLaunchArgument(

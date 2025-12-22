@@ -1,0 +1,14 @@
+foot_state_machine:
+  ros__parameters:
+    # 串口配置
+    serial_port: "/dev/foot_usb"     # 足底传感器固定别名 (CH340: 1a86:7523)
+    baud_rate: 115200                 # 波特率
+    
+    # 步态检测阈值 (单位: g)
+    threshold_on: 800                 # 触发站立期的压力阈值
+    threshold_off: 150                # 触发摆动期的压力阈值
+    
+    # 话题名称
+    topic_gait_state: "/foot/gait_state"        # 步态状态 (stance/swing)
+    topic_state_code: "/foot/state_code"        # 状态码 (1/0)
+    topic_pressure: "/foot/total_pressure"      # 总压力 (g)

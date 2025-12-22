@@ -23,8 +23,8 @@ def generate_launch_description():
     # 声明启动参数 (可以覆盖配置文件)
     serial_port_arg = DeclareLaunchArgument(
         'serial_port',
-        default_value='/dev/ttyUSB0',
-        description='Serial port device path (Raspberry Pi native USB)'
+        default_value='/dev/imu_usb',
+        description='Serial port device path (固定别名: /dev/imu_usb)'
     )
     
     baud_rate_arg = DeclareLaunchArgument(

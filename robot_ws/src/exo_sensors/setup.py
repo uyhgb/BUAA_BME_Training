@@ -29,6 +29,7 @@ setup(
             'imu_csv_reader = exo_sensors.imu_csv_reader:main',
             'imu_data_recorder = exo_sensors.imu_data_recorder:main',
             'imu_visualizer = exo_sensors.imu_visualizer:main',
+            'foot_state_machine = exo_sensors.foot_state_machine:main',
         ],
     },
 )

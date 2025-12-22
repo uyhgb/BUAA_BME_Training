@@ -5,10 +5,10 @@
 imu_csv_reader:
   ros__parameters:
     # 串口参数
-    # Windows COM7 通过 docker-compose 映射为 /dev/ttyUSB0
-    # 树莓派上 ESP32 原生连接也是 /dev/ttyUSB0
-    # 保持两套环境代码一致性
-    serial_port: "/dev/ttyUSB0"      # COM7 (Windows) 或原生 USB (树莓派)
+    # IMU 通过 udev 规则绑定为固定别名 /dev/imu_usb
+    # 在树莓派上通过 99-robot.rules 实现
+    # 使用固定别名，避免 ttyUSB0/1 顺序混乱
+    serial_port: "/dev/imu_usb"      # IMU固定别名 (CP2102: 10c4:ea60)
     baud_rate: 115200                # 波特率 (与 ESP32 9DOF_Demo_v3 匹配)
     timeout: 1.0                     # 串口读取超时 (秒)
     
