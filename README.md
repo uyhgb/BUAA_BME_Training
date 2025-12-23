@@ -50,6 +50,8 @@ ros2 launch robot_controller robot_system.launch.py
 ROS2对于初学者，不管是Linux初学者还是自动控制或者机器人初学者，都有一定难度
 本项目使用ROS2其实是大材小用了，ROS最核心的moveit功能并没有用到，我主要使用的是它的通信框架
 简单介绍一下整个项目的目录结构（没用到而且我也没删的东西不用管，万一删了就报错）：
+
+```bash
 |————.devcontainer/  # VSCode远程容器配置文件
 |————1note/         # 我的开发日志和笔记
 |————build/          # ROS2编译输出目录
@@ -68,6 +70,7 @@ ROS2对于初学者，不管是Linux初学者还是自动控制或者机器人�
 |————sensor_source_code            # 烧录到IMU的ESP32代码
 |————svm                           # SVM训练代码和模型
 |————unitree_actuator_sdk-main    # 宇树电机SDK（C++ + Python版本）
+```
 
 开发流程：
 11.24之前，仍在使用宇树的ROS2框架，代码在backup分支，过于臃肿，已弃用，仅在中期展示时使用过，仅对其中的docker配置进行了保留
